@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="airPollutionViewer">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Air Pollution viewer for London</title>
+    <form>
+    
+    </form>
+    <script data-require="angular.js@1.7.9" src="scripts/angular.min.js"></script>
+<script src="scripts/app.js"></script>
+</head>
+<body ng-controller="MainController" data-ng-init="getData()" ng-show="pollutionData">
+    <h1>Latest air quality data for {{pollutionData.DailyAirQualityIndex.LocalAuthority['@LocalAuthorityName']}}</h1>
+    <form ng-show="pollutionData.DailyAirQualityIndex.LocalAuthority.Site">
+        <label for="sites">Site</label>
+        <select id="sites" ng-model="sites">
+<option ng-repeat="site in pollutionData.DailyAirQualityIndex.LocalAuthority.Site" value="{{site['@SiteCode']}}">{{site['@SiteName']}}</option>
+        </select>
+<input type="submit" value="Search"  />        
+
+    </form>
+
+    <div ng-repeat="site in pollutionData.DailyAirQualityIndex.LocalAuthority.Site">
+        <div id="{{site['@SiteCode']}}" ng-if="sites === site['@SiteCode']">
+        <h1>{{site['@SiteName']}}</h1>
+       
+            <p ng-show="site.Species.length > 1" ng-repeat="species in site.Species">
+                <strong>{{species['@SpeciesDescription']}}</strong>: {{species['@AirQualityBand']}}
+            </p>
+           <p>
+            <span ng-hide="angular.equals(site.Species, {})" ng-repeat="(key, value) in site.Species">
+
+              <strong ng-if="key == '@SpeciesDescription'">{{value}}:</strong> <span ng-if="key == '@AirQualityBand'">{{value}}</span>
+            </span>
+        </p>
+    </div>
+    </div>
+</body>
+</html>
