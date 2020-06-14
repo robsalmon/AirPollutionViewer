@@ -10,6 +10,7 @@
     </form>
     <script data-require="angular.js@1.7.9" src="scripts/angular.min.js"></script>
 <script src="scripts/app.js"></script>
+<script src="scripts/MainController.js"></script>
 </head>
 <body ng-controller="MainController" data-ng-init="getData()" ng-show="pollutionData">
     <h1>Latest air quality data for {{pollutionData.DailyAirQualityIndex.LocalAuthority['@LocalAuthorityName']}}</h1>
